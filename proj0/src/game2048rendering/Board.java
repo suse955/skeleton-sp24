@@ -117,7 +117,7 @@ public class Board {
 
     /** Returns the board as a string, used for debugging. */
     @Override
-    public String toString() {
+    public String toString(){
         Formatter out = new Formatter();
         out.format("%n[%n");
         for (int y = size() - 1; y >= 0; y -= 1) {

@@ -31,6 +31,7 @@ public class Model {
         score = 0;
     }
 
+
     /** A new 2048 game where RAWVALUES contain the values of the tiles
      * (0 if null). VALUES is indexed by (x, y) with (0, 0) corresponding
      * to the bottom-left corner. Used for testing purposes. */
@@ -85,6 +86,13 @@ public class Model {
      * */
     public boolean emptySpaceExists() {
         // TODO: Task 2. Fill in this function.
+        for (int i = 0; i < board.size(); i++) {
+            for (int j = 0; j < board.size(); j++) {
+                if (tile(i, j) == null) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -95,8 +103,21 @@ public class Model {
      */
     public boolean maxTileExists() {
         // TODO: Task 3. Fill in this function.
+        for (int i = 0; i < board.size(); i++) {
+            for (int j = 0; j < board.size(); j++) {
+                if (tile(i, j) == null) {
+                    continue;
+                } else {
+                    if (tile(i, j).value() == MAX_PIECE) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
+
+
 
     /**
      * Returns true if there are any valid moves on the board.
@@ -106,6 +127,27 @@ public class Model {
      */
     public boolean atLeastOneMoveExists() {
         // TODO: Fill in this function.
+        if (emptySpaceExists()) {
+            return true;
+        } else {
+            for (int i = 0; i < board.size()-1; i++) {
+                for (int j = 0; j < board.size()-1; j++) {
+                    Tile current = board.tile(i, j);
+                    if (current.value() == board.tile(i + 1, j).value() ||
+                            current.value() == board.tile(i, j + 1).value()) {
+                        return true;
+                    }
+                }
+            }
+            for (int i = 0; i < size() - 1; i++) {
+                Tile current = board.tile(i, size() - 1);
+                if (current.value() == board.tile(i + 1, size() - 1).value()
+                        || board.tile(size() - 1, i).value() == board.tile(size() - 1, i + 1).value()) {
+                    return true;
+                }
+
+            }
+        }
         return false;
     }
 
@@ -127,9 +169,21 @@ public class Model {
         Tile currTile = board.tile(x, y);
         int myValue = currTile.value();
         int targetY = y;
+        for (int i = size() - 1; i > targetY; i--) {
+            if (board.tile(x, i) == null) {
+                board.move(x, i, currTile);
+                break;
+            } else {
+                if (board.tile(x, i).value() == myValue && !board.tile(x, i).wasMerged()) {
+                    board.move(x, i, currTile);
+                    score += 2 * myValue;
+                    break;
+                }
+            }
+        }
+     }
 
         // TODO: Tasks 5, 6, and 10. Fill in this function.
-    }
 
     /** Handles the movements of the tilt in column x of the board
      * by moving every tile in the column as far up as possible.
@@ -138,10 +192,20 @@ public class Model {
      * */
     public void tiltColumn(int x) {
         // TODO: Task 7. Fill in this function.
+        for (int i = size() - 1; i >= 0; i--) {
+            if (board.tile(x, i) != null) {
+                moveTileUpAsFarAsPossible(x,i);
+            }
+        }
     }
 
     public void tilt(Side side) {
         // TODO: Tasks 8 and 9. Fill in this function.
+        board.setViewingPerspective(side);
+        for (int i = 0; i < size(); i++) {
+            tiltColumn(i);
+        }
+        board.setViewingPerspective(Side.NORTH);
     }
 
     /** Tilts every column of the board toward SIDE.

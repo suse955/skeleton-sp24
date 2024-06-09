@@ -1,7 +1,8 @@
+
+import deque.MaxArrayDeque61B;
 import org.junit.jupiter.api.*;
 
 import java.util.Comparator;
-import deque.MaxArrayDeque61B;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;

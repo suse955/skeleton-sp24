@@ -27,6 +27,7 @@ public class Main {
     }, 0);
 
     public static void main(String[] args) {
+        //创建了一个棋盘模型，把模型当作抓手，来控制棋盘
         Model model = USE_CUSTOM_START ? CUSTOM_START : new Model(BOARD_SIZE);
 
         GUI gui = new GUI("2048 61B", model);

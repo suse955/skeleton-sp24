@@ -88,7 +88,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     @Override
     public T get(int index) {
 
-        return index < 1 || index > _size ? null : _value[index - 1];
+        return index < 0 || index >= _size ? null : _value[index];
     }
 
     @Override

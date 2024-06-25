@@ -1,7 +1,6 @@
 
 
-import org.eclipse.jetty.websocket.common.message.SimpleTextMessage;
-import org.objectweb.asm.Type;
+
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -36,11 +35,11 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
 
     @Override
     public void addFirst(T x) {
-        Node temput = new Node(x);
-        temput._next = sentinel._next;
-        temput._prev = sentinel;
-        sentinel._next._prev = temput;
-        sentinel._next = temput;
+        Node node = new Node(x);
+        node._next = sentinel._next;
+        node._prev = sentinel;
+        sentinel._next._prev = node;
+        sentinel._next = node;
         size += 1;
     }
 
@@ -53,11 +52,11 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
 
     @Override
     public void addLast(T x) {
-        Node temput = new Node(x);
-        sentinel._prev._next = temput;
-        temput._prev = sentinel._prev;
-        temput._next = sentinel;
-        sentinel._prev = temput;
+        Node node = new Node(x);
+        sentinel._prev._next = node;
+        node._prev = sentinel._prev;
+        node._next = sentinel;
+        sentinel._prev = node;
         size += 1;
 
     }
@@ -126,14 +125,16 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
 
         return current._item;
     }
-    @Override
+//    @Override
     public T getRecursive(int index) {
-        if (index > size) {
-            return null;
+        return getRec(sentinel._next, index);
+    }
+
+    private T getRec(Node head, int index) {
+        if (head == null || index == 0) {
+            return head == null ? null : head._item;
         }
-        if (index == 0) {
-            return sentinel._item;
-        } else return getRecursive(index - 1);
+        return getRec(head._next, index-1);
     }
 
 }

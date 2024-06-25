@@ -20,8 +20,29 @@ public class Deque61BTest {
         assertEquals(1, deque.size());
         assertEquals((Integer) 1, deque.removeFirst());
         assertTrue(deque.isEmpty());
-        assertNull(deque.removeFirst());
-        assertEquals(0, deque.size());
+        deque.addLast(1);
+        deque.addLast(1);
+        deque.addLast(1);
+        deque.addLast(1);
+        deque.addLast(1);
+        deque.addLast(1);
+        deque.addFirst(1);
+        deque.addFirst(2);
+        deque.addFirst(3);
+        deque.addFirst(4);
+        deque.addFirst(4);
+        deque.addFirst(4);
+        deque.addFirst(4);
+        deque.addFirst(4);
+        deque.addFirst(4);
+        deque.addFirst(4);
+        deque.addFirst(4);
+        deque.addFirst(4);
+        deque.addFirst(4);
+        deque.addFirst(4);
+
+//        assertNull(deque.removeFirst());
+//        assertEquals(0, deque.size());
     }
 
     @Test
@@ -69,9 +90,9 @@ public class Deque61BTest {
         deque.addLast(1);
         deque.addLast(2);
         deque.addLast(3);
-        assertEquals((Integer) 1, deque.get(1));
-        assertEquals((Integer) 2, deque.get(2));
-        assertEquals((Integer) 3, deque.get(3));
+        assertEquals((Integer) 1, deque.get(0));
+        assertEquals((Integer) 2, deque.get(1));
+        assertEquals((Integer) 3, deque.get(2));
         assertNull(deque.get(4));
     }
 

@@ -1,9 +1,13 @@
+import browser.NgordnetQuery;
+import main.HistoryHandler;
+import ngrams.NGramMap;
 import ngrams.TimeSeries;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -55,4 +59,20 @@ public class TimeSeriesTest {
         assertThat(totalPopulation.years()).isEmpty();
         assertThat(totalPopulation.data()).isEmpty();
     }
+
+    @Test
+    public void testStartEndCons() {
+        TimeSeries a = new TimeSeries();
+        for (int i = 0; i < 100; i++) {
+            a.put(1900 + i, i * 10.0);
+        }
+        TimeSeries b = new TimeSeries(a, 1950, 1990);
+
+    }
+//    @Test
+//    public void TestHandler() {
+//        NGramMap ngm = new NGramMap("SHORT_WORDS_FILE", "TOTAL_COUNTS_FILE");
+//        HistoryHandler handler = new HistoryHandler(ngm);
+//        handler.handle(new NgordnetQuery( 2000, 2020));
+//    }
 } 

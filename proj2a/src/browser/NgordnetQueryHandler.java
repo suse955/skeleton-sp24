@@ -13,6 +13,8 @@ public abstract class NgordnetQueryHandler implements Route {
     public abstract String handle(browser.NgordnetQuery q);
     private static final Gson gson = new Gson();
 
+
+    // 把一个字符串，做“，”分割，将每个字符串做一些操作后，返回一个字符串列表；
     private static List<String> commaSeparatedStringToList(String s) {
         String[] requestedWords = s.split(",");
         for (int i = 0; i < requestedWords.length; i += 1) {
@@ -20,7 +22,9 @@ public abstract class NgordnetQueryHandler implements Route {
         }
         return Arrays.asList(requestedWords);
     }
-
+    //QueryParamsMap类/对象
+    //用于解析和访问HTTP请求的查询参数，查询参数是URL后的键值对
+    //读取QueryParamsMap对象，返回一个NgordnetQuery对象
     private static browser.NgordnetQuery readQueryMap(QueryParamsMap qm) {
         List<String> words = commaSeparatedStringToList(qm.get("words").value());
 
@@ -45,7 +49,6 @@ public abstract class NgordnetQueryHandler implements Route {
         } catch(RuntimeException e) {
             k = 0;
         }
-
         return new browser.NgordnetQuery(words, startYear, endYear, k);
     }
 

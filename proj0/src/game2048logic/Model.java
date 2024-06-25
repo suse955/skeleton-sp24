@@ -166,23 +166,54 @@ public class Model {
      *    and the trailing tile does not.
      */
     public void moveTileUpAsFarAsPossible(int x, int y) {
-        Tile currTile = board.tile(x, y);
+        Tile currTile = board.tile(x, y);//
         int myValue = currTile.value();
+
+        //记录当前块移动的位置
         int targetY = y;
-        for (int i = size() - 1; i > targetY; i--) {
+
+        //是否加score，移动时，score的值是否变化分两个种情况：
+            //1.非合并时（移动到null和不等块下方），score不变化
+            //2.合并时，score += 2*当前块的值；
+        boolean isAddScore = false;
+
+        // 找出当前块应该移动到的位置，分为三种情况：
+            // 1.循环找顶上非空位置；
+            // 2.若遇到非空位置，分两种情况讨论：
+                    // 2.1 两个块值不等，则移动位置为当前位置的下方一个位置，移动位置确定break；
+                    // 2.2 两个块等值，则移动位置为当前位置，移动位置已确定break；
+        for (int i = y + 1; i < size(); i++) {
             if (board.tile(x, i) == null) {
-                board.move(x, i, currTile);
-                break;
+                targetY = i;
             } else {
-                if (board.tile(x, i).value() == myValue && !board.tile(x, i).wasMerged()) {
-                    board.move(x, i, currTile);
-                    score += 2 * myValue;
+                if (board.tile(x, i).value() != myValue) {
+                    targetY = i - 1;
+                    break;
+                } else if (board.tile(x, i).value() == myValue && !board.tile(x, i).wasMerged()) {
+                    targetY = i;
+                    isAddScore = true;
                     break;
                 }
             }
         }
-     }
-
+        if (y != targetY) {
+            board.move(x, targetY, currTile);
+            score += isAddScore ? 2 * myValue : 0;
+        }
+    }
+        //错误代码v1
+//        for (int i = size() - 1; i > targetY; i--) {
+//            if (board.tile(x, i) == null) {
+//                board.move(x, i, currTile);
+//                break;
+//            } else {
+//                if (board.tile(x, i).value() == myValue && !board.tile(x, i).wasMerged()) {
+//                    board.move(x, i, currTile);
+//                    score += 2 * myValue;
+//                    break;
+//                }
+//            }
+//        }
         // TODO: Tasks 5, 6, and 10. Fill in this function.
 
     /** Handles the movements of the tilt in column x of the board
@@ -218,7 +249,7 @@ public class Model {
 
     @Override
     public String toString() {
-        Formatter out = new Formatter();
+         Formatter out = new Formatter();
         out.format("%n[%n");
         for (int y = size() - 1; y >= 0; y -= 1) {
             for (int x = 0; x < size(); x += 1) {
